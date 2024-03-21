@@ -44,7 +44,7 @@
                             <span class="hide-menu">LIST OF EVENTS</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./upcoming.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./upcomingevents.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>

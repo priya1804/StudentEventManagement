@@ -34,7 +34,7 @@
                     <label for="Role" class="form-label">Role</label>
                     <div>
                       <input name="role" type="radio" value="1" class="form-check-input" id="studentrole"> <span style="margin-left: 2px;">Student</span></input>
-                      <input name="role" type="radio" value="2" class="form-check-input" style="margin-left: 20px;" id="adminrole"> <span style="margin-left: 2px;"> Admin </span></input> 
+                      <input name="role" type="radio" value="2" class="form-check-input" style="margin-left: 20px;" id="adminrole"> <span style="margin-left: 2px;"> Admin </span></input>
                     </div>
                   </div>
                   <div class="form-group mb-3">
@@ -77,7 +77,9 @@ if (isset($_POST['save'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
   $role = $_POST['role'];
-  
+  $contactNumber = $_POST['contact_number'];
+  $currentDate = date("Y-m-d");
+
   $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
   $emailPattern = '/^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/';
 
@@ -101,7 +103,7 @@ if (isset($_POST['save'])) {
     } else {
       mysqli_query($mysqli, "INSERT INTO users(first_name,last_name,password,email,role,contact_number,
         created_at,updated_at,status,is_admin) 
-  VALUES('$hashPassword','$role','$firstName','$lastName','$email')") or die(mysqli_error($mysqli));
+        VALUES('$firstName','$lastName','$hashPassword','$email', '$role', '$contactNumber', '$currentDate', '$currentDate', 1, 0)") or die(mysqli_error($mysqli));
     ?>
       <script>
         alert('Registartion Successfull');

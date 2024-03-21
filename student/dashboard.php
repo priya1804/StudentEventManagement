@@ -44,7 +44,7 @@
                             <span class="hide-menu">LIST OF EVENTS</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./upcoming.php" aria-expanded="false">
+                            <a class="sidebar-link" href="./upcomingevents.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
@@ -127,122 +127,52 @@
                 </nav>
             </header>
             <!--  Header End -->
-
             <div class="container-fluid">
-                <div class="col-lg-12 d-flex align-items-stretch">
-                    <div class="card w-100">
-                        <div class="card-body p-4">
-                            <h5 class="card-title fw-semibold mb-4">List Of Events</h5>
-                            <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0" style="width: 50px;">
-                                                <h6 class="fw-semibold mb-0">Sr. No.</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="max-width: 100px;">
-                                                <h6 class="fw-semibold mb-0">Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="width: 200px;">
-                                                <h6 class="fw-semibold mb-0">Description</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="min-width: 5px;">
-                                                <h6 class="fw-semibold mb-0">Organizer</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Event Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Start Time</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">End Time</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
-                                                <span class="fw-normal">Web Designer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Elite Admin </p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">2</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Real Homes WP Theme Theme Theme Theme Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">3</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">4</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                                                <span class="fw-normal">Frontend Engineer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Hosting Press HTML</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                <div class="container-fluid">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title fw-semibold mb-4">Events</h5>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Events
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Upcoming Events</h5>
+                                            <p class="card-text">Quick look to upcoming events</p>
+                                            <a href="./upcomingevents.php" class="btn btn-primary">Go To Events</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="card-title fw-semibold mb-4">Organized List</h5>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Organizers
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Organized By You</h5>
+                                            <p class="card-text">Events you organized in past.</p>
+                                            <a href="./organizer.php" class="btn btn-primary">Go To Organized Events</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <h5 class="card-title fw-semibold mb-4">Profile</h5>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            Your Profile
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">Profile</h5>
+                                            <p class="card-text">Your Information</p>
+                                            <a href="./profile.php" class="btn btn-primary">Go To Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

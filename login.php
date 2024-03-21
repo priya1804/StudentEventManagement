@@ -10,10 +10,8 @@
 
 <body>
   <!--  Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <div
-      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed">
+    <div class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
       <div class="d-flex align-items-center justify-content-center w-100">
         <div class="row justify-content-center w-100">
           <div class="col-md-8 col-lg-6 col-xxl-3">
@@ -57,33 +55,37 @@
 </html>
 
 <?php
-if (isset($_POST['save'])){
-$email= $_POST['email'];
-$password = $_POST['password'];
-$hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+if (isset($_POST['save'])) {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-$mysqli = new mysqli("localhost","root","","student_event_manage");
-$query = @mysqli_query($mysqli,"SELECT * FROM users WHERE email = '$email'")or die(mysqli_error($mysqli));
-$count = mysqli_num_rows($query);
-$row = mysqli_fetch_array($query);
+  $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+  $query = @mysqli_query($mysqli, "SELECT * FROM users WHERE email = '$email'") or die(mysqli_error($mysqli));
+  $count = mysqli_num_rows($query);
+  $row = mysqli_fetch_array($query);
 
-if($count > 0 && password_verify($password,$row['password'])){
-  ?>
-
-  <script>
-    window.location = "student/dashboard.php";
-    $.jGrowl("Student Logged In added", { header: 'Staff add' });
-  </script>
-
-  <?php 
-}else{
+  if ($count > 0 && password_verify($password, $row['password'])) {
+    if ($row['role'] == 1) {
 ?>
-<script>
-alert("Wrong Data Entered");
-window.location = "login.php";
-$.jGrowl("Wrong Data Entered", { header: 'Staff add' });
-</script>
+      <script>
+        window.location = "student/dashboard.php";
+      </script>
+    <?php
+    } else if ($row['role'] == 2) {
+    ?>
+      <script>
+        window.location = "admin/dashboard.php";
+      </script>
+    <?php
+    }
+  } else {
+    ?>
+    <script>
+      alert("Wrong Data Entered");
+      window.location = "login.php";
+    </script>
 <?php
-}
+  }
 }
 ?>
