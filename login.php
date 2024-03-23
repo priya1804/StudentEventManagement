@@ -31,7 +31,7 @@
                     <input name="password" type="password" class="form-control" id="exampleInputPassword1">
                   </div>
                   <div class="form-group d-flex align-items-center justify-content-between mb-4">
-                    <a class="text-primary fw-bold" href="./index.html">Forgot Password ?</a>
+                    <a class="text-primary fw-bold" href="./index.php">Forgot Password ?</a>
                   </div>
                   <div class="form-group">
                     <button type="submit" name="save" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Sign In</button>

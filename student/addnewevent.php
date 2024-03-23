@@ -58,7 +58,7 @@
                                 </span>
                                 <span class="hide-menu">Organizer</span>
                             </a>
-                        </li> 
+                        </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Attendance</span>
@@ -129,73 +129,23 @@
             <!--  Header End -->
 
             <div class="container-fluid">
-                <div class="col-lg-12 d-flex align-items-stretch">
+                <div class="col-lg-12 d-flex align-items-stretch w-50">
                     <div class="card w-100">
                         <div class="card-body p-4">
-                            <div class="mb-4" style="display: flex; justify-content: space-between;">
-                                <h5 class="card-title fw-semibold">Past organized events</h5>
-                                <a href="addnewevent.php" class="btn btn-primary">New event</a>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                            <th class="border-bottom-0" style="width: 50px;">
-                                                <h6 class="fw-semibold mb-0">Sr. No.</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="max-width: 100px;">
-                                                <h6 class="fw-semibold mb-0">Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="width: 200px;">
-                                                <h6 class="fw-semibold mb-0">Description</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Event Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Start Time</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">End Time</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Ratings</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Cultural Event</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">In this event the cultural diversity will be presented.</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">22 Mar 2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">4.00 pm</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">8.00 pm</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4" style="color: #FFD700;">
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                </h6>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <h5 class="card-title fw-semibold mb-5">New Event</h5>
+                            <form action="login.php" method="post">
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Event Name</label>
+                                    <input name="event_name" type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Event Description</label>
+                                    <textarea class="form-control w-100" name="event_desc" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" name="save" class="btn btn-primary w-20 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Request</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
