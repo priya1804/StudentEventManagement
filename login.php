@@ -55,6 +55,8 @@
 </html>
 
 <?php
+session_start();
+
 if (isset($_POST['save'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
@@ -67,12 +69,20 @@ if (isset($_POST['save'])) {
 
   if ($count > 0 && password_verify($password, $row['password'])) {
     if ($row['role'] == 1) {
+      $_SESSION['user_id'] = $row['user_id'];
+      $_SESSION['email'] = $row['email'];
+      $_SESSION['is_student'] = 1;
+      $_SESSION['is_admin'] = 0;
 ?>
       <script>
         window.location = "student/dashboard.php";
       </script>
     <?php
     } else if ($row['role'] == 2) {
+      $_SESSION['user_id'] = $row['user_id'];
+      $_SESSION['email'] = $row['email'];
+      $_SESSION['is_student'] = 0;
+      $_SESSION['is_admin'] = 1;
     ?>
       <script>
         window.location = "admin/dashboard.php";

@@ -1,3 +1,12 @@
+<?php
+session_start();
+$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+
+if (!isset($_SESSION['user_id'])) {
+    header("location:../login.php");
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -133,14 +142,38 @@
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <h5 class="card-title fw-semibold mb-5">New Event</h5>
-                            <form action="login.php" method="post">
+                            <form action="addnewevent.php" method="post">
                                 <div class="form-group mb-4">
                                     <label class="form-label">Event Name</label>
-                                    <input name="event_name" type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input name="event_name" type="text" class="form-control w-100" id="exampleInputEmail1" aria-describedby="emailHelp" required>
                                 </div>
                                 <div class="form-group mb-4">
                                     <label class="form-label">Event Description</label>
-                                    <textarea class="form-control w-100" name="event_desc" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
+                                    <textarea class="form-control w-100" name="event_desc" placeholder="Enter text ..." style="width: 810px; height: 200px" required></textarea>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Event Date</label>
+                                    <input class="form-control w-100" type="date" name="event_date" required>
+                                </div>
+
+                                <div style="display: flex; width: 100%;">
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Start Time</label>
+                                        <input class="form-control w-100" type="text" name="start_time" required placeholder="HH:MM (Duration)">
+                                    </div>
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">End Minute</label>
+                                        <input class="form-control w-100" type="text" name="end_time" required placeholder="HH:MM (Duration)">
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Registration Close Date</label>
+                                    <input class="form-control w-100" type="date" name="reg_close_date" required placeholder="HH:MM (Duration)">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label class="form-label">Registration Closing Time</label>
+                                    <input class="form-control w-100" type="text" name="reg_closing_time" required placeholder="HH:MM (Duration)">
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" name="save" class="btn btn-primary w-20 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Request</button>
@@ -161,3 +194,42 @@
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['save'])) {
+    $eventName = $_POST['event_name'];
+    $eventDesc = $_POST['event_desc'];
+    $eventDate = $_POST['event_date'];
+    $eventStartTime = $_POST['start_time'];
+    $eventEndTime = $_POST['end_time'];
+    $regClosingDate = $_POST['reg_close_date'];
+    $regclosingTime = $_POST['reg_closing_time'];
+    $userId = $_SESSION['user_id'];
+
+    $currentDate = date("Y-m-d");
+    $currenTime = time();
+
+    $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE event_name = '$eventName'") or die(mysqli_error($mysqli));
+    $count = mysqli_num_rows($query);
+
+    if ($count > 0) { ?>
+        <script>
+            alert('Event Name already exists');
+        </script>
+    <?php
+    } else {
+        $insertionEvent = mysqli_query($mysqli, "INSERT INTO events(event_name,event_description,organizer_id,status,created_at,updated_at,event_date,
+        event_start_time,event_end_time,registration_closing_date,registration_closing_time,batch_id) 
+        VALUES('$eventName', '$eventDesc', '$userId', 1, '$currenTime', '$currenTime', '$eventDate', 
+        '$eventStartTime', '$eventEndTime', '$regClosingDate', '$regclosingTime', 1)") or die(mysqli_error($mysqli));
+
+        print_r($insertionEvent);
+    ?>
+        <script>
+            alert('Event Registered Successfull');
+            window.location = "organizer.php";
+        </script>
+<?php
+    }
+}
+?>
