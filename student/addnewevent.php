@@ -222,8 +222,6 @@ if (isset($_POST['save'])) {
         event_start_time,event_end_time,registration_closing_date,registration_closing_time,batch_id) 
         VALUES('$eventName', '$eventDesc', '$userId', 1, '$currenTime', '$currenTime', '$eventDate', 
         '$eventStartTime', '$eventEndTime', '$regClosingDate', '$regclosingTime', 1)") or die(mysqli_error($mysqli));
-
-        print_r($insertionEvent);
     ?>
         <script>
             alert('Event Registered Successfull');

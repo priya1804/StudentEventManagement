@@ -1,3 +1,12 @@
+<?php
+session_start();
+$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+
+if (!isset($_SESSION['user_id'])) {
+    header("location:../../login.php");
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -144,6 +153,10 @@
             </header>
             <!--  Header End -->
 
+            <?php
+                $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 0") or die(mysqli_error($mysqli));
+                $count = mysqli_num_rows($query);    
+            ?>
             <div class="container-fluid">
                 <div class="col-lg-12 d-flex align-items-stretch">
                     <div class="card w-100">
@@ -183,37 +196,40 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-1 fw-semibold">Description </p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Pandey </h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">01-03-2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">09:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">10:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Pending</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">
-                                                    <button type="button" class="btn btn-primary mb-1 fs-2 p-2">Update</button>
-                                                </h6>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        while($row = mysqli_fetch_array($query)){
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['organizer_id']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>Pending</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>
+                                            <a class='btn btn-primary mb-1 fs-2 p-2' href='approveevent.php?event_id={$row['event_id']}&admin_id={$_SESSION['user_id']}'>Update</a></h6>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
