@@ -225,7 +225,7 @@ if (!isset($_SESSION['user_id'])) {
                                             echo "</td>";
                                             echo "<td class='border-bottom-0'>";
                                             echo "<h6 class='fw-semibold mb-1'>
-                                            <a class='btn btn-primary mb-1 fs-2 p-2' href='approveevent.php?event_id={$row['event_id']}&admin_id={$_SESSION['user_id']}'>Update</a></h6>";
+                                            <a class='btn btn-primary mb-1 fs-2 p-2' href='eventstatusedit.php?event_id={$row['event_id']}'>Update</a></h6>";
                                             echo "</td>";
                                             echo "</tr>";
                                         }

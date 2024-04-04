@@ -1,3 +1,16 @@
+<?php
+session_start();
+$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+
+if (!isset($_SESSION['user_id'])) {
+    header("location:../../login.php");
+}
+
+if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
+    $adminId = $_SESSION['user_id'];
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -143,49 +156,123 @@
                 </nav>
             </header>
             <!--  Header End -->
+
+            <?php
+            $eventId = $_GET['event_id'];
+            $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+            $count = mysqli_num_rows($query);
+            $row = mysqli_fetch_array($query);
+
+            $organizerId = $row['organizer_id'];
+            $organizerDet = @mysqli_query($mysqli, "SELECT * FROM users WHERE user_id = '$organizerId'") or die(mysqli_error($mysqli));
+            $count = mysqli_num_rows($organizerDet);
+            $organizerDetails = mysqli_fetch_array($organizerDet);
+            ?>
             <div class="container-fluid">
-                <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Update Form Status</h5>
-                            <div class="card">
-                                <div class="card-body">
-                                    <form>
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Event List</label>
-                                            <select id="disabledSelect" class="form-select">
-                                                <option>Select</option>
-                                                <option>Event 1</option>
-                                                <option>Event 2</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputEmail1" class="form-label">Approve</label>
-                                            <div>
-                                                <input type="radio" class="form-check-input" id="exampleCheck1"> <span style="margin-left: 2px;">Approve</span></input>
-                                                <input type="radio" class="form-check-input" style="margin-left: 20px;" id="exampleCheck1"> <span style="margin-left: 2px;"> Reject </span></input>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Room No</label>
-                                            <input type="text" class="form-control" id="exampleInputPassword1">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4 fs-5">Event Details</h5>
+                            <h5 class="fw mb-3 fs-4"> Name : <?php echo $row['event_name'] ?></h5> 
+                            <h5 class="fw mb-3 fs-4"> Description : <?php echo $row['event_description'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Organizer Name : <?php echo $organizerDetails['first_name'] . $organizerDetails['last_name'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Date : <?php echo $row['event_date'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Start Time : <?php echo $row['event_start_time'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> End Time : <?php echo $row['event_end_time'] ?></h5>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4 fs-5 ">Update Status For Event</h5>
+                            <form action="eventstatusedit.php?event_id=<?php echo urlencode($eventId); ?>" method="post">
+                                <div class="form-group mb-3">
+                                    <label class="form-label fs-4">Approve</label>
+                                    <div>
+                                        <input type="radio" name="approvestatus" value="1" class="form-check-input" id="approveRadio"> <span style="margin-left: 2px;">Approve</span></input>
+                                        <input type="radio" name="approvestatus" value="2" class="form-check-input" style="margin-left: 20px;" id="rejectRadio"> <span style="margin-left: 2px;"> Reject </span></input>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="form-group mb-3">
+                                    <label class="form-label fs-4">Message to show to organizer</label>
+                                    <input type="text" class="form-control" name="addedMsg">
+                                </div>
+                                <div class="form-group mb-3" id="roomNumberField" style="display: none;">
+                                    <label class="form-label fs-4">Room No</label>
+                                    <input type="text" class="form-control" name="allocatedVenue" id="roomNumberInput" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" name="save" class="btn btn-primary w-20 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Request</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/js/sidebarmenu.js"></script>
+        <script src="../../assets/js/app.min.js"></script>
+        <script src="../../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+        <script src="../../assets/libs/simplebar/dist/simplebar.js"></script>
+        <script src="../../assets/js/dashboard.js"></script>
 
-            <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
-            <script src="../../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="../../assets/js/sidebarmenu.js"></script>
-            <script src="../../assets/js/app.min.js"></script>
-            <script src="../../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-            <script src="../../assets/libs/simplebar/dist/simplebar.js"></script>
-            <script src="../../assets/js/dashboard.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get references to radio buttons and room number field
+                var approveRadio = document.getElementById('approveRadio');
+                var rejectRadio = document.getElementById('rejectRadio');
+                var roomNumberField = document.getElementById('roomNumberField');
+
+                // Add event listener to approve radio button
+                approveRadio.addEventListener('change', function() {
+                    if (this.checked) {
+                        // If approve radio button is checked, show room number field
+                        roomNumberField.style.display = 'block';
+                        roomNumberInput.required = true;
+                    }
+                });
+
+                // Add event listener to reject radio button
+                rejectRadio.addEventListener('change', function() {
+                    if (this.checked) {
+                        // If reject radio button is checked, hide room number field
+                        roomNumberField.style.display = 'none';
+                        roomNumberInput.required = false;
+                    }
+                });
+            });
+        </script>
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['save'])) {
+    $approveStatus = $_POST['approvestatus'];
+    $addedMsg = $_POST['addedMsg'];
+    $allocatedVenue = $_POST['allocatedVenue'];
+    $currentDate = date("Y-m-d");
+
+    if ($approveStatus == 1 && $allocatedVenue == "") {
+?>
+        <script>
+            alert('As event is approved allocated room number cannot be null');
+        </script>
+    <?php
+    }   
+    echo $adminId;
+
+    $updateEvent = @mysqli_query($mysqli, "UPDATE events SET approved_by = '$adminId', status = '$approveStatus', allocated_venue = '$allocateVenue',
+    added_msg = '$addedMsg', updated_at = '$currentDate' WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+    ?>
+    <script>
+        alert('Saved Successfully');
+        window.location = "upcomingapproved.php";
+    </script>
+<?php
+}
+?>

@@ -130,3 +130,7 @@ CREATE TABLE event_attendees_replies(
     FOREIGN KEY(event_id) REFERENCES events(event_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
+
+ALTER TABLE `events` CHANGE `event_start_time` `event_start_time` VARCHAR(10) NOT NULL;
+ALTER TABLE `events` CHANGE `event_end_time` `event_end_time` VARCHAR(10) NOT NULL;
+ALTER TABLE `events` CHANGE `registration_closing_time` `registration_closing_time` VARCHAR(10) NOT NULL;
