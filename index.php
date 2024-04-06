@@ -1,3 +1,27 @@
+<?php
+// Check if the "remember_token" cookie is present
+if (isset($_COOKIE['remember_me'])) {
+	$userType = $_COOKIE['remember_me'];
+	$userId = $_COOKIE['user_id'];
+	$email = $_COOKIE['email'];
+
+	$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+	$query = @mysqli_query($mysqli, "SELECT * FROM users WHERE email = '$email' AND user_id = '$userId'") or die(mysqli_error($mysqli));
+	$count = mysqli_num_rows($query);
+	if($count > 0 ){
+		// Redirect to the appropriate dashboard based on the user type
+		if ($userType === 'admin') {
+			header("Location: admin/dashboard.php");
+			exit();
+		} else if ($userType === 'student') {
+			header("Location: student/dashboard.php");
+			exit();
+		}
+	}
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

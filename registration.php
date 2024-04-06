@@ -21,32 +21,32 @@
                   <h3><strong>Marwadi University</strong></h3>
                 </a>
                 <p class="text-center">Registration</p>
-                <form action="registration.php" method="post">
+                <form action="registration.php" method="post" onsubmit="return validateForm()">
                   <div class="form-group mb-3">
-                    <label for="firstName" class="form-label">First Name</label>
+                    <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
                     <input type="text" name="firstname" class="form-control" id="firstname" required>
                   </div>
                   <div class="form-group mb-3">
-                    <label for="lastName" class="form-label">Last Name</label>
+                    <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
                     <input type="text" name="lastname" class="form-control" id="lastname" required>
                   </div>
                   <div class="form-group mb-3">
-                    <label for="Role" class="form-label">Role</label>
+                    <label for="Role" class="form-label">Role <span style="color: red;">*</span></label>
                     <div>
-                      <input name="role" type="radio" value="1" class="form-check-input" id="studentrole"> <span style="margin-left: 2px;">Student</span></input>
+                      <input name="role" type="radio" value="1" checked class="form-check-input" id="studentrole"> <span style="margin-left: 2px;">Student</span></input>
                       <input name="role" type="radio" value="2" class="form-check-input" style="margin-left: 20px;" id="adminrole"> <span style="margin-left: 2px;"> Admin </span></input>
                     </div>
                   </div>
                   <div class="form-group mb-3">
-                    <label class="form-label">Contact Number</label>
-                    <input type="tel" required="" name="contact_number" class="form-control form-control-lg" value="">
+                    <label class="form-label">Contact Number <span style="color: red;">*</span></label>
+                    <input type="tel" required name="contact_number" id="contactNumber" class="form-control form-control-lg" value="">
                   </div>
                   <div class="form-group mb-3">
-                    <label for="Email" class="form-label">Email Address</label>
-                    <input type="text" name="email" class="form-control" required>
+                    <label for="Email" class="form-label">Email Address <span style="color: red;">*</span></label>
+                    <input type="text" id="email" name="email" class="form-control" required>
                   </div>
                   <div class="form-group mb-3">
-                    <label for="Password" class="form-label">Password</label>
+                    <label for="Password" class="form-label">Password <span style="color: red;">*</span></label>
                     <input type="password" name="password" class="form-control" id="password" required>
                   </div>
                   <div class="form-group">
@@ -66,6 +66,44 @@
   </div>
   <script src="assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function validateForm() {
+      var firstname = document.getElementById("firstname").value;
+      var lastname = document.getElementById("lastname").value;
+      var contactNumber = document.getElementById("contactNumber").value;
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Check if fields are empty
+      if (firstname == "" || lastname == "" || email == "" || contactNumber == "" || password == "") {
+        alert("All fields are required");
+        return false;
+      }
+
+      // Check password length
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return false;
+      }
+
+      // Check if passwords match
+      if (contactNumber.length < 10 && contactNumber.length > 10) {
+        alert("Contact Number is not coreect");
+        return false;
+      }
+
+      // Check email format (basic validation)
+      var emailPattern = /^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/;
+      if (!emailPattern.test(email)) {
+        alert("Invalid email format");
+        return false;
+      }
+
+      // Validation passed
+      return true;
+    }
+  </script>
 </body>
 
 </html>

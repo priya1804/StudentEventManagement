@@ -139,15 +139,7 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">My Profile</p>
                                         </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
-                                            <p class="mb-0 fs-3">My Account</p>
-                                        </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">My Task</p>
-                                        </a>
-                                        <a href="./authentication-login.html" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="../../logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
                             </li>
@@ -173,7 +165,7 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <h5 class="card-title fw-semibold mb-4 fs-5">Event Details</h5>
-                            <h5 class="fw mb-3 fs-4"> Name : <?php echo $row['event_name'] ?></h5> 
+                            <h5 class="fw mb-3 fs-4"> Name : <?php echo $row['event_name'] ?></h5>
                             <h5 class="fw mb-3 fs-4"> Description : <?php echo $row['event_description'] ?></h5>
                             <h5 class="fw mb-3 fs-4"> Organizer Name : <?php echo $organizerDetails['first_name'] . $organizerDetails['last_name'] ?></h5>
                             <h5 class="fw mb-3 fs-4"> Date : <?php echo $row['event_date'] ?></h5>
@@ -263,7 +255,7 @@ if (isset($_POST['save'])) {
             alert('As event is approved allocated room number cannot be null');
         </script>
     <?php
-    }   
+    }
     echo $adminId;
 
     $updateEvent = @mysqli_query($mysqli, "UPDATE events SET approved_by = '$adminId', status = '$approveStatus', allocated_venue = '$allocateVenue',

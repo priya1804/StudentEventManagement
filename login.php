@@ -20,19 +20,22 @@
                 <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
                   <h2><strong>Marwadi University</strong></h2>
                 </a>
-                <p class="text-center">Your Key</p>
-                <form action="login.php" method="post">
+                <p class="text-center">Sign In Page</p>
+                <form action="login.php" method="post" onsubmit="return validateForm()">
                   <div class="form-group mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                    <input name="email" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label class="form-label">Email <span style="color: red;">*</span></label>
+                    <input name="email" type="text" class="form-control" id="email" aria-describedby="emailHelp">
                   </div>
                   <div class="form-group mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+                    <label class="form-label">Password <span style="color: red;">*</span></label>
+                    <input name="password" type="password" class="form-control" id="password">
                   </div>
-                  <div class="form-group d-flex align-items-center justify-content-between mb-4">
+                  <!-- <div class="form-group d-flex align-items-center justify-content-between mb-4">
                     <a class="text-primary fw-bold" href="./index.php">Forgot Password ?</a>
-                  </div>
+                  </div> -->
+                  <label for="remember">
+                    <input type="checkbox" id="remember" name="remember"> Remember Me
+                  </label>
                   <div class="form-group">
                     <button type="submit" name="save" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Sign In</button>
                   </div>
@@ -50,6 +53,35 @@
   </div>
   <script src="assets/libs/jquery/dist/jquery.min.js"></script>
   <script src="assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    function validateForm() {
+      var email = document.getElementById("email").value;
+      var password = document.getElementById("password").value;
+
+      // Check if fields are empty
+      if (email == "" || password == "") {
+        alert("All fields are required");
+        return false;
+      }
+
+      // Check password length
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters");
+        return false;
+      }
+
+      // Check email format (basic validation)
+      var emailPattern = /^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/;
+      if (!emailPattern.test(email)) {
+        alert("Invalid email format");
+        return false;
+      }
+
+      // Validation passed
+      return true;
+    }
+  </script>
 </body>
 
 </html>
@@ -73,6 +105,17 @@ if (isset($_POST['save'])) {
       $_SESSION['email'] = $row['email'];
       $_SESSION['is_student'] = 1;
       $_SESSION['is_admin'] = 0;
+      setcookie("email", $row['email'], time() + (86400 * 30), "/"); // Cookie expires in 30 days
+      setcookie("user_id", $row['user_id'], time() + (86400 * 30), "/"); // Cookie expires in 30 days
+
+      if (isset($_POST['remember'])) {
+        // Determine the user type (admin or student)
+        $userType = 'student';
+
+        // Set a cookie with the token and user type
+        setcookie('remember_me', $userType, time() + (86400 * 30), "/"); // Cookie expires in 30 days
+        print_r($_COOKIE['remember_me']);
+      }
 ?>
       <script>
         window.location = "student/dashboard.php";
@@ -83,6 +126,17 @@ if (isset($_POST['save'])) {
       $_SESSION['email'] = $row['email'];
       $_SESSION['is_student'] = 0;
       $_SESSION['is_admin'] = 1;
+      setcookie("email", $row['email'], time() + (86400 * 30), "/"); // Cookie expires in 30 days
+      setcookie("user_id", $row['user_id'], time() + (86400 * 30), "/"); // Cookie expires in 30 days
+
+      if (isset($_POST['remember'])) {
+        // Determine the user type (admin or student)
+        $userType = 'admin';
+
+        // Set a cookie with the token and user type
+        setcookie('remember_me', $userType, time() + (86400 * 30), "/"); // Cookie expires in 30 days
+        print_r($_COOKIE['remember_me']);
+      }
     ?>
       <script>
         window.location = "admin/dashboard.php";
