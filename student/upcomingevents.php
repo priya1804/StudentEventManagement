@@ -1,3 +1,12 @@
+<?php
+session_start();
+$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+
+if (!isset($_SESSION['user_id'])) {
+    header("location:../../login.php");
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -129,7 +138,7 @@
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
                                         <tr>
-                                            <th class="border-bottom-0" style="width: 50px;">
+                                        <th class="border-bottom-0" style="width: 50px;">
                                                 <h6 class="fw-semibold mb-0">Sr. No.</h6>
                                             </th>
                                             <th class="border-bottom-0" style="max-width: 100px;">
@@ -153,86 +162,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
-                                                <span class="fw-normal">Web Designer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Elite Admin </p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">2</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Real Homes WP Theme Theme Theme Theme Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">3</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                                                <span class="fw-normal">Project Manager</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">4</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                                                <span class="fw-normal">Frontend Engineer</span>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">Hosting Press HTML</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                                                </div>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1") or die(mysqli_error($mysqli));
+                                        $count = mysqli_num_rows($query);
+
+                                        while($row = mysqli_fetch_array($query)){
+                                            $organizername = @mysqli_query($mysqli, "SELECT first_name, last_name FROM users WHERE user_id = {$row['organizer_id']}") or die(mysqli_error($mysqli));
+                                            $organizername = mysqli_fetch_array($organizername);
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$organizername['first_name']."  ".$organizername['last_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

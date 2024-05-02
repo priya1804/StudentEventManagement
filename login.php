@@ -17,7 +17,7 @@
           <div class="col-md-8 col-lg-6 col-xxl-3">
             <div class="card mb-0">
               <div class="card-body">
-                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                <a href="./index.php" class="text-nowrap logo-img text-center d-block py-3 w-100">
                   <h2><strong>Marwadi University</strong></h2>
                 </a>
                 <p class="text-center">Sign In Page</p>

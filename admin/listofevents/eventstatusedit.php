@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once '../../sendEmails.php';
+
 $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
 
 if (!isset($_SESSION['user_id'])) {
@@ -256,10 +258,15 @@ if (isset($_POST['save'])) {
         </script>
     <?php
     }
-    echo $adminId;
 
-    $updateEvent = @mysqli_query($mysqli, "UPDATE events SET approved_by = '$adminId', status = '$approveStatus', allocated_venue = '$allocateVenue',
-    added_msg = '$addedMsg', updated_at = '$currentDate' WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+    if($approveStatus == 1 && $allocatedVenue != ""){
+        $updateEvent = @mysqli_query($mysqli, "UPDATE events SET approved_by = '$adminId', status = '$approveStatus', allocated_venue = '$allocateVenue',
+        added_msg = '$addedMsg', updated_at = '$currentDate' WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+        if($updateEvent){
+            $eventDetails = @mysqli_query($mysqli, "SELECT * FROM events WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+            sendMailForEventReg(array("priyashukla@gmail.com"));
+        }
+    }
     ?>
     <script>
         alert('Saved Successfully');
