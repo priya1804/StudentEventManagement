@@ -3,7 +3,9 @@ session_start();
 $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
 
 if (!isset($_SESSION['user_id'])) {
-    header("location:../../login.php");
+    header("location:../login.php");
+} else {
+    $userId = $_SESSION['user_id'];
 }
 ?>
 
@@ -130,82 +132,51 @@ if (!isset($_SESSION['user_id'])) {
             <!--  Header End -->
 
             <div class="container-fluid">
+            <?php
+            $eventId = $_GET['event_id'];
+            $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+            $count = mysqli_num_rows($query);
+            $row = mysqli_fetch_array($query);
+
+            $organizerId = $row['organizer_id'];
+            $organizerDet = @mysqli_query($mysqli, "SELECT * FROM users WHERE user_id = '$organizerId'") or die(mysqli_error($mysqli));
+            $count = mysqli_num_rows($organizerDet);
+            $organizerDetails = mysqli_fetch_array($organizerDet);
+            ?>
+            <div class="container-fluid">
                 <div class="col-lg-12 d-flex align-items-stretch">
                     <div class="card w-100">
                         <div class="card-body p-4">
-                            <h5 class="card-title fw-semibold mb-4">List Of Events</h5>
-                            <div class="table-responsive">
-                                <table class="table text-nowrap mb-0 align-middle">
-                                    <thead class="text-dark fs-4">
-                                        <tr>
-                                        <th class="border-bottom-0" style="width: 50px;">
-                                                <h6 class="fw-semibold mb-0">Sr. No.</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="max-width: 100px;">
-                                                <h6 class="fw-semibold mb-0">Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="width: 200px;">
-                                                <h6 class="fw-semibold mb-0">Description</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="min-width: 5px;">
-                                                <h6 class="fw-semibold mb-0">Organizer</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Event Date</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Start Time</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">End Time</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Register</h6>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1") or die(mysqli_error($mysqli));
-                                        $count = mysqli_num_rows($query);
+                            <h5 class="card-title fw-semibold mb-4 fs-5">Event Details</h5>
+                            <h5 class="fw mb-3 fs-4"> Name : <?php echo $row['event_name'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Description : <?php echo $row['event_description'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Organizer Name : <?php echo $organizerDetails['first_name'] ."   ". $organizerDetails['last_name'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Event Date : <?php echo $row['event_date'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> Start Time : <?php echo $row['event_start_time'] ?></h5>
+                            <h5 class="fw mb-3 fs-4"> End Time : <?php echo $row['event_end_time'] ?></h5>
 
-                                        while($row = mysqli_fetch_array($query)){
-                                            $organizername = @mysqli_query($mysqli, "SELECT first_name, last_name FROM users WHERE user_id = {$row['organizer_id']}") or die(mysqli_error($mysqli));
-                                            $organizername = mysqli_fetch_array($organizername);
-                                            echo "<tr>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>".$organizername['first_name']."  ".$organizername['last_name']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
-                                            echo "</td>";
-                                            echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-1'>
-                                            <a class='btn btn-primary mb-1 fs-2 p-2' href='registerforevent.php?event_id={$row['event_id']}'>Register</a></h6>";
-                                            echo "</td>";
-                                            echo "</tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body p-4">
+                            <h5 class="card-title fw-semibold mb-4 fs-5 ">Update your presence for event</h5>
+                            <form action="registerforevent.php?event_id=<?php echo urlencode($eventId); ?>" method="post">
+                                <div class="form-group mb-3">
+                                    <label class="form-label fs-4">Presence</label>
+                                    <div>
+                                        <input type="radio" name="presentstatus" value="1" class="form-check-input" id="presentRadio"> <span style="margin-left: 2px;">Will be attending</span></input>
+                                        <input type="radio" name="presentstatus" value="2" class="form-check-input" style="margin-left: 20px;" id="absentRadio"> <span style="margin-left: 2px;"> Will not be attending </span></input>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" name="save" class="btn btn-primary w-20 py-8 fs-4 mb-4 rounded-2" id="save" title="Click to Save">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -219,3 +190,28 @@ if (!isset($_SESSION['user_id'])) {
 </body>
 
 </html>
+
+<?php
+if (isset($_POST['save'])) {
+    $approveStatus = $_POST['presentstatus'];
+    $currentDate = date("Y-m-d");
+
+    $alreadyRespondent = @mysqli_query($mysqli, "SELECT * FROM event_attendees_replies WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
+	$count = mysqli_num_rows($alreadyRespondent);
+
+    if($count > 0){
+        $updateEvent = @mysqli_query($mysqli, "UPDATE event_attendees_replies SET link_reply = '$approveStatus' 
+            WHERE event_id = '$eventId' AND user_id = '$userId'") or die(mysqli_error($mysqli));
+    } else {
+        $insertEventReply = @mysqli_query($mysqli, "INSERT INTO event_attendees_replies(event_id, user_id, link_reply) 
+            VALUES('$eventId', '$userId', '$approveStatus')") or die(mysqli_error($mysqli));
+    }
+
+    ?>
+    <script>
+        alert('Saved Successfully');
+        window.location = "upcomingevents.php";
+    </script>
+<?php
+}
+?>
