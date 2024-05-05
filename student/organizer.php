@@ -1,11 +1,21 @@
+<?php
+session_start();
+$mysqli = new mysqli("localhost", "root", "", "student_event_manage");
+
+if (!isset($_SESSION['user_id'])) {
+    header("location:../login.php");
+} else {
+    $studentId = $_SESSION['user_id'];
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
-    <link rel="shortcut icon" type="image/png" href="../assets/images/logos/favicon.png" />
+    <title>Organizer</title>
     <link rel="stylesheet" href="../assets/css/styles.min.css" />
 </head>
 
@@ -72,7 +82,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./pastattendent.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
@@ -151,40 +161,41 @@
                                                 <h6 class="fw-semibold mb-0">End Time</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Ratings</h6>
+                                                <h6 class="fw-semibold mb-0">Status</h6>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Cultural Event</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-0 fw-normal">In this event the cultural diversity will be presented.</p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">22 Mar 2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">4.00 pm</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4">8.00 pm</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0 fs-4" style="color: #FFD700;">
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                    <span>&#x2606;</span>
-                                                </h6>
-                                            </td>
-                                        </tr>
+                                    <?php
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE organizer_id = '$studentId'") or die(mysqli_error($mysqli));
+                                        while($row = mysqli_fetch_array($query)){
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>". 
+                                            ($row['status'] == 0 ? "Pending" : ($row['status'] == 1 ? "Approved" : "Rejected")) . 
+                                            "</h6>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>

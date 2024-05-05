@@ -81,7 +81,7 @@ if (!isset($_SESSION['user_id'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./pastattendent.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
@@ -211,9 +211,9 @@ if (isset($_POST['save'])) {
     <?php
     } else {
         $insertionEvent = mysqli_query($mysqli, "INSERT INTO events(event_name,event_description,organizer_id,status,created_at,updated_at,event_date,
-        event_start_time,event_end_time,registration_closing_date,registration_closing_time,batch_id) 
+        event_start_time,event_end_time,registration_closing_date,registration_closing_time,batch_id,status) 
         VALUES('$eventName', '$eventDesc', '$userId', 1, '$currenTime', '$currenTime', '$eventDate', 
-        '$eventStartTime', '$eventEndTime', '$regClosingDate', '$regclosingTime', 1)") or die(mysqli_error($mysqli));
+        '$eventStartTime', '$eventEndTime', '$regClosingDate', '$regclosingTime', 1, 0)") or die(mysqli_error($mysqli));
     ?>
         <script>
             alert('Event Registered Successfull');

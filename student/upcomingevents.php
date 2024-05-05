@@ -4,6 +4,8 @@ $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
 
 if (!isset($_SESSION['user_id'])) {
     header("location:../../login.php");
+} else {
+    $studentId = $_SESSION['user_id'];
 }
 ?>
 
@@ -81,7 +83,7 @@ if (!isset($_SESSION['user_id'])) {
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
+                            <a class="sidebar-link" href="./pastattendent.php" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user-plus"></i>
                                 </span>
@@ -166,7 +168,7 @@ if (!isset($_SESSION['user_id'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1") or die(mysqli_error($mysqli));
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId'") or die(mysqli_error($mysqli));
                                         $count = mysqli_num_rows($query);
 
                                         while($row = mysqli_fetch_array($query)){
