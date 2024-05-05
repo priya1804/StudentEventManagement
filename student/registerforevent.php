@@ -5,7 +5,7 @@ $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
 if (!isset($_SESSION['user_id'])) {
     header("location:../login.php");
 } else {
-    $userId = $_SESSION['user_id'];
+    $studentId = $_SESSION['user_id'];
 }
 ?>
 
@@ -141,6 +141,15 @@ if (!isset($_SESSION['user_id'])) {
             $organizerDet = @mysqli_query($mysqli, "SELECT * FROM users WHERE user_id = '$organizerId'") or die(mysqli_error($mysqli));
             $count = mysqli_num_rows($organizerDet);
             $organizerDetails = mysqli_fetch_array($organizerDet);
+
+            $eventAlreadyReg = @mysqli_query($mysqli, "SELECT link_reply FROM event_attendees_replies WHERE event_id = '$eventId' AND user_id = '$studentId'") or die(mysqli_error($mysqli));
+            $countEventAlreadyReg = mysqli_num_rows($eventAlreadyReg);
+            if($countEventAlreadyReg > 0){
+                $eventAlreadyRegAns = mysqli_fetch_array($eventAlreadyReg)['link_reply'];
+            } else {
+                $eventAlreadyRegAns = 0;
+            }
+            
             ?>
             <div class="container-fluid">
                 <div class="col-lg-12 d-flex align-items-stretch">
@@ -165,8 +174,8 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="form-group mb-3">
                                     <label class="form-label fs-4">Presence</label>
                                     <div>
-                                        <input type="radio" name="presentstatus" value="1" class="form-check-input" id="presentRadio"> <span style="margin-left: 2px;">Will be attending</span></input>
-                                        <input type="radio" name="presentstatus" value="2" class="form-check-input" style="margin-left: 20px;" id="absentRadio"> <span style="margin-left: 2px;"> Will not be attending </span></input>
+                                        <input type="radio" name="presentstatus" value="1" <?php echo ($eventAlreadyRegAns == 1 ? "checked" : "") ?> class="form-check-input" id="presentRadio"> <span style="margin-left: 2px;">Will be attending</span></input>
+                                        <input type="radio" name="presentstatus" value="2" <?php echo ($eventAlreadyRegAns == 2 ? "checked" : "") ?> class="form-check-input" style="margin-left: 20px;" id="absentRadio"> <span style="margin-left: 2px;"> Will not be attending </span></input>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -200,10 +209,10 @@ if (isset($_POST['save'])) {
 
     if($count > 0){
         $updateEvent = @mysqli_query($mysqli, "UPDATE event_attendees_replies SET link_reply = '$approveStatus' 
-            WHERE event_id = '$eventId' AND user_id = '$userId'") or die(mysqli_error($mysqli));
+            WHERE event_id = '$eventId' AND user_id = '$studentId'") or die(mysqli_error($mysqli));
     } else {
         $insertEventReply = @mysqli_query($mysqli, "INSERT INTO event_attendees_replies(event_id, user_id, link_reply) 
-            VALUES('$eventId', '$userId', '$approveStatus')") or die(mysqli_error($mysqli));
+            VALUES('$eventId', '$studentId', '$approveStatus')") or die(mysqli_error($mysqli));
     }
 
     ?>
