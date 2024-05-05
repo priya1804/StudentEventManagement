@@ -43,7 +43,7 @@ function sendMailForEventReg($studentsEmailArray){
     
     // Send email
     if (!$mail->send()) {
-        echo 'Error sending email: ' . $mail->ErrorInfo;
+        echo 'Sending email for errors: ' . $mail->ErrorInfo;
     } else {
         echo 'Email sent successfully to all recipients';
     }
