@@ -163,9 +163,6 @@ if (!isset($_SESSION['user_id'])) {
                                             <th class="border-bottom-0" style="width: 200px;">
                                                 <h6 class="fw-semibold mb-0">Last Name</h6>
                                             </th>
-                                            <th class="border-bottom-0" style="min-width: 5px;">
-                                                <h6 class="fw-semibold mb-0">Batch Name</h6>
-                                            </th>
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">Date Enrolled</h6>
                                             </th>
@@ -178,31 +175,41 @@ if (!isset($_SESSION['user_id'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="mb-1 fw-semibold">Pandey</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">2022-2026 (A-Batch) </h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">01-03-2022</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Active</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">
-                                                    <a href="./organizers.php?username='Sunil'">Organized Events</a>
-                                                </h6>
-                                            </td>
-                                        </tr>
+                                    <?php
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM users WHERE role = 1") or die(mysqli_error($mysqli));
+                                        $count = mysqli_num_rows($query); 
+                                        while($row = mysqli_fetch_array($query)){
+                                            $userId = $row['user_id'];
+                                            $currDate = date("Y-m-d");
+                                            $organizedEvents = @mysqli_query($mysqli, "SELECT * FROM events WHERE organizer_id = '$userId' AND status = 1 AND event_date < '$currDate'") or die(mysqli_error($mysqli));
+                                            $organizedEventsCount = mysqli_num_rows($organizedEvents);
+                                            $i = 1;
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['first_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['last_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['created_at']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['status']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$organizedEventsCount."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>";
+                                            echo ($organizedEventsCount > 0 ? "<a class='btn btn-primary mb-1 fs-2 p-2'  href='./organizers.php?organizer_id=".$userId."'>Organized Events</a> </h6>" : "No Events");
+                                            echo "</td>";
+                                            $i++;
+                                        }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>

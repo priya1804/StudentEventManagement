@@ -185,8 +185,8 @@ if (isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1) {
                                 <div class="form-group mb-3">
                                     <label class="form-label fs-4">Approve</label>
                                     <div>
-                                        <input type="radio" name="approvestatus" value="1" class="form-check-input" id="approveRadio"> <span style="margin-left: 2px;">Approve</span></input>
-                                        <input type="radio" name="approvestatus" value="2" class="form-check-input" style="margin-left: 20px;" id="rejectRadio"> <span style="margin-left: 2px;"> Reject </span></input>
+                                        <input type="radio" name="approvestatus" value="1" <?php echo ($row['status'] == 1 ? "checked": "") ?> class="form-check-input" id="approveRadio"> <span style="margin-left: 2px;">Approve</span></input>
+                                        <input type="radio" name="approvestatus" value="2" <?php echo ($row['status'] == 2 ? "checked": "") ?> class="form-check-input" style="margin-left: 20px;" id="rejectRadio"> <span style="margin-left: 2px;"> Reject </span></input>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">

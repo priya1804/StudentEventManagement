@@ -187,40 +187,49 @@ if (!isset($_SESSION['user_id'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-1 fw-semibold">Description </p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Pandey </h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">01-03-2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">09:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">10:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-normal mb-1">Review For Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Rejected</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">
-                                                    <button type="button" class="btn btn-primary mb-1 fs-2 p-2">Update</button>
-                                                </h6>
-                                            </td>
-                                        </tr>
+                                    <?php
+                                    $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 2") or die(mysqli_error($mysqli));
+                                    $count = mysqli_num_rows($query);  
+                                        while($row = mysqli_fetch_array($query)){
+                                            $organizername = @mysqli_query($mysqli, "SELECT first_name, last_name FROM users WHERE user_id = {$row['organizer_id']}") or die(mysqli_error($mysqli));
+                                            $organizername = mysqli_fetch_array($organizername);
+                                            $i = 1;
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$organizername['first_name']."  ".$organizername['last_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['added_msg']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>Rejected</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>
+                                            <a class='btn btn-primary mb-1 fs-2 p-2' href='eventstatusedit.php?event_id={$row['event_id']}'>Update</a></h6>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                            $i++;
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>

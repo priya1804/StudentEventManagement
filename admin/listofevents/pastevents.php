@@ -175,45 +175,42 @@ if (!isset($_SESSION['user_id'])) {
                                             <th class="border-bottom-0">
                                                 <h6 class="fw-semibold mb-0">End Time</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Review</h6>
-                                            </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Status</h6>
-                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <p class="mb-1 fw-semibold">Description </p>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil Pandey </h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">01-03-2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">09:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">10:50 AM</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-normal mb-1">Review For Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Rejected</h6>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    <?php
+                                        $currDate = date("Y-m-d");
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND event_date < '$currDate'") or die(mysqli_error($mysqli));
+                                        $count = mysqli_num_rows($query);
+                                        while($row = mysqli_fetch_array($query)){
+                                            $i = 1;
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['organizer_id']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                            $i++;
+                                        }
+                                        ?>                                   \
+                                        </tbody>
                                 </table>
                             </div>
                         </div>

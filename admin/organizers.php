@@ -154,55 +154,70 @@ if (!isset($_SESSION['user_id'])) {
                                 <table class="table text-nowrap mb-0 align-middle">
                                     <thead class="text-dark fs-4">
                                         <tr>
-                                            <th class="border-bottom-0" style="width: 50px;">
+                                        <th class="border-bottom-0" style="width: 50px;">
                                                 <h6 class="fw-semibold mb-0">Sr. No.</h6>
                                             </th>
                                             <th class="border-bottom-0" style="max-width: 100px;">
-                                                <h6 class="fw-semibold mb-0">First Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="width: 200px;">
-                                                <h6 class="fw-semibold mb-0">Last Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="min-width: 5px;">
-                                                <h6 class="fw-semibold mb-0">Batch Name</h6>
-                                            </th>
-                                            <th class="border-bottom-0" style="min-width: 5px;">
                                                 <h6 class="fw-semibold mb-0">Event Name</h6>
                                             </th>
-                                            <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Date Of Event</h6>
+                                            <th class="border-bottom-0" style="width: 200px;">
+                                                <h6 class="fw-semibold mb-0">Description</h6>
+                                            </th>
+                                            <th class="border-bottom-0" style="min-width: 5px;">
+                                                <h6 class="fw-semibold mb-0">Organizer</h6>
                                             </th>
                                             <th class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">Ratings</h6>
+                                                <h6 class="fw-semibold mb-0">Event Date</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">Start Time</h6>
+                                            </th>
+                                            <th class="border-bottom-0">
+                                                <h6 class="fw-semibold mb-0">End Time</h6>
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-0">1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Sunil</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="mb-1 fw-semibold">Pandey</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">2022-2026 (A-Batch) </h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">Event 1</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">01-03-2024</h6>
-                                            </td>
-                                            <td class="border-bottom-0">
-                                                <h6 class="fw-semibold mb-1">
-                                                    <h6 class="fw-semibold mb-1">4.2</h6>
-                                                </h6>
-                                            </td>
-                                        </tr>
+                                    <?php
+                                        $organizerId = $_GET['organizer_id'] ?? 0;
+                                        $currDate = date("Y-m-d");
+
+                                        if($organizerId != 0){
+                                            $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE organizer_id = '$organizerId' AND status  = 1 AND event_date < '$currDate' ") or die(mysqli_error($mysqli));
+                                        } else {
+                                            $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status  = 1 AND event_date < '$currDate' ") or die(mysqli_error($mysqli));
+                                        }
+                                        $count = mysqli_num_rows($query); 
+                                        while($row = mysqli_fetch_array($query)){
+                                            $organizerId = $row['organizer_id'];
+                                            $organizerDetails = @mysqli_query($mysqli, "SELECT * FROM users WHERE user_id = '$organizerId'") or die(mysqli_error($mysqli));
+                                            $organizerDetails = mysqli_fetch_array($organizerDetails);
+                                            $i = 1;
+                                            echo "<tr>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw mb-1'>".$row['event_description']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$organizerDetails['first_name'] . "  ". $organizerDetails['last_name']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_date']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_start_time']."</h6>";
+                                            echo "</td>";
+                                            echo "<td class='border-bottom-0'>";
+                                            echo "<h6 class='fw-semibold mb-1'>".$row['event_end_time']."</h6>";
+                                            echo "</td>";
+                                            $i++;
+                                        }
+                                    ?>
                                     </tbody>
                                 </table>
                             </div>
