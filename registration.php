@@ -94,10 +94,19 @@
       }
 
       // Check email format (basic validation)
-      var emailPattern = /^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/;
-      if (!emailPattern.test(email)) {
-        alert("Invalid email format");
-        return false;
+      var emailPattern = /^[a-z]+[.][a-z]+[0-9]+@marwadiuniversity\.ac\.in$/;
+      var emailTeacherPattern = /^[a-z]+[.][a-z]+@marwadieducation\.edu\.in$/;
+
+      if (studentrole) {
+        if (!emailPattern.test(email)) {
+          alert("Invalid email format");
+          return false;
+        }
+      } else {
+        if (!emailTeacherPattern.test(email)) {
+          alert("Invalid email format");
+          return false;
+        }
       }
 
       // Validation passed
@@ -119,10 +128,18 @@ if (isset($_POST['save'])) {
   $currentDate = date("Y-m-d");
 
   $hashPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
-  $emailPattern = '/^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/';
+  $emailPattern = '/^[a-z]+[.][a-z]+[0-9]+@marwadiuniversity\.ac\.in$/';
+  $emailTeacherPattern = '/^[a-z]+[.][a-z]+@marwadieducation\.edu\.in$/';
 
-  if (preg_match($emailPattern, $email) !== 1) {
+  if (preg_match($emailPattern, $email) !== 1 &&  $role == 1) {
 ?>
+    <script>
+      alert('Email is not correct');
+      window.location('registration.php');
+    </script>
+  <?php
+  } else if (preg_match($emailTeacherPattern, $email) !== 1 &&  $role == 2) {
+  ?>
     <script>
       alert('Email is not correct');
       window.location('registration.php');

@@ -167,15 +167,17 @@ if (!isset($_SESSION['user_id'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId'") or die(mysqli_error($mysqli));
+                                        $currDate = date("Y-m-d");
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId' AND event_date < '$currDate'") or die(mysqli_error($mysqli));
                                         $count = mysqli_num_rows($query);
 
                                         while($row = mysqli_fetch_array($query)){
                                             $organizername = @mysqli_query($mysqli, "SELECT first_name, last_name FROM users WHERE user_id = {$row['organizer_id']}") or die(mysqli_error($mysqli));
                                             $organizername = mysqli_fetch_array($organizername);
+                                            $i = 1;
                                             echo "<tr>";
                                             echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
                                             echo "</td>";
                                             echo "<td class='border-bottom-0'>";
                                             echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
@@ -200,6 +202,7 @@ if (!isset($_SESSION['user_id'])) {
                                             <a class='btn btn-primary mb-1 fs-2 p-2' href='registerforevent.php?event_id={$row['event_id']}'>Register</a></h6>";
                                             echo "</td>";
                                             echo "</tr>";
+                                            $i++;
                                         }
                                         ?>
                                     </tbody>

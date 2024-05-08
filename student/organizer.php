@@ -169,9 +169,10 @@ if (!isset($_SESSION['user_id'])) {
                                     <?php
                                         $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE organizer_id = '$studentId'") or die(mysqli_error($mysqli));
                                         while($row = mysqli_fetch_array($query)){
+                                            $i = 1;
                                             echo "<tr>";
                                             echo "<td class='border-bottom-0'>";
-                                            echo "<h6 class='fw-semibold mb-0'>".$row['event_id']."</h6>";
+                                            echo "<h6 class='fw-semibold mb-0'>".$i."</h6>";
                                             echo "</td>";
                                             echo "<td class='border-bottom-0'>";
                                             echo "<h6 class='fw-semibold mb-1'>".$row['event_name']."</h6>";
@@ -194,6 +195,7 @@ if (!isset($_SESSION['user_id'])) {
                                             "</h6>";
                                             echo "</td>";
                                             echo "</tr>";
+                                            $i++;
                                         }
                                     ?>
                                     </tbody>

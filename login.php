@@ -30,9 +30,6 @@
                     <label class="form-label">Password <span style="color: red;">*</span></label>
                     <input name="password" type="password" class="form-control" id="password">
                   </div>
-                  <!-- <div class="form-group d-flex align-items-center justify-content-between mb-4">
-                    <a class="text-primary fw-bold" href="./index.php">Forgot Password ?</a>
-                  </div> -->
                   <label for="remember">
                     <input type="checkbox" id="remember" name="remember"> Remember Me
                   </label>
@@ -73,7 +70,8 @@
 
       // Check email format (basic validation)
       var emailPattern = /^[a-zA-Z]+[.][a-zA-Z]+[0-9]+@marwadiuniversity\.ac\.in$/;
-      if (!emailPattern.test(email)) {
+      var $emailTeacherPattern = /^[a-z]+[.][a-z]+@marwadieducation\.edu\.in$/;
+      if(!(emailPattern.test(email)||emailTeacherPattern.test(email))) {
         alert("Invalid email format");
         return false;
       }
