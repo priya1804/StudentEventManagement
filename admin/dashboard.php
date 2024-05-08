@@ -132,10 +132,10 @@ if (!isset($_SESSION['user_id'])) {
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <!-- <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">My Profile</p>
-                                        </a>
+                                        </a> -->
                                         <a href="../logout.php" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@ if (!isset($_SESSION['user_id'])) {
                                 </div>
                             </div>
                             <div class="row align-items-center">
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <h5 class="card-title fw-semibold mb-4">Profile</h5>
                                     <div class="card">
                                         <div class="card-header">
@@ -190,7 +190,7 @@ if (!isset($_SESSION['user_id'])) {
                                             <a href="./profile.php" class="btn btn-primary">Go To Profile</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
