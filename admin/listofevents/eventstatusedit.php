@@ -263,8 +263,12 @@ if (isset($_POST['save'])) {
         $updateEvent = @mysqli_query($mysqli, "UPDATE events SET approved_by = '$adminId', status = '$approveStatus', allocated_venue = '$allocateVenue',
         added_msg = '$addedMsg', updated_at = '$currentDate' WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
         if($updateEvent){
-            $eventDetails = @mysqli_query($mysqli, "SELECT * FROM events WHERE event_id = '$eventId'") or die(mysqli_error($mysqli));
-            sendMailForEventReg(array("priyashukla@gmail.com"));
+            $emails = array();
+            $studentDetails = @mysqli_query($mysqli, "SELECT * FROM users WHERE status = 1 and role = 1") or die(mysqli_error($mysqli));
+            while ($row = mysqli_fetch_array($studentDetails)) {
+                array_push($emails, $row['email']);
+            }
+            sendMailForEventReg($emails, $eventId);
         }
     }
     ?>

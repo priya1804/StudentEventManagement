@@ -2,11 +2,23 @@
 session_start();
 $mysqli = new mysqli("localhost", "root", "", "student_event_manage");
 
-if (!isset($_SESSION['user_id'])) {
-    header("location:../login.php");
+if(isset($_GET['email'])){
+    $email = $_GET['email'];
+    $studentQuery = @mysqli_query($mysqli, "SELECT * FROM users WHERE email = '$email'") or die(mysqli_error($mysqli));
+	$queryCount = mysqli_num_rows($studentQuery);
+    if($queryCount == 1){
+        $studentId = mysqli_fetch_array($studentQuery)['user_id'];
+    } else {
+        header("location:../login.php");
+    }
 } else {
-    $studentId = $_SESSION['user_id'];
+    if (!isset($_SESSION['user_id'])) {
+        header("location:../login.php");
+    } else {
+        $studentId = $_SESSION['user_id'];
+    }
 }
+
 ?>
 
 <!doctype html>

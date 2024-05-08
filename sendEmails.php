@@ -3,11 +3,11 @@ require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-function sendMailForEventReg($studentsEmailArray){
+function sendMailForEventReg($studentsEmailArray, $eventId){
 
     // Create a new PHPMailer instance
     $mail = new PHPMailer();
-    
+
     // Set mailer to use SMTP
     $mail->isSMTP();
     
@@ -20,33 +20,22 @@ function sendMailForEventReg($studentsEmailArray){
     $mail->Port = 587; // TCP port to connect to
     
     // Sender information
-    $mail->setFrom('priyashukla18@gmail.com', 'Priya Shukla');
-    
-    // Load recipient data (e.g., from a database)
-    $recipients = ['priyashukla@gmail.com'];
-    
-    // Concatenate recipient email addresses and add to the "To" field
-    $toAddresses = implode(', ', $recipients);
-    $mail->addAddress($toAddresses);
-    
-    // Email subject and body
-    $mail->Subject = 'A new event has been scheduled. Register fast!!!';
-    $mail->Body = 'A new event has been scheduled by organizer name details are below: <br><br>
-    Date: <br>
-    Venue: <br>
-    Time: <br> <br>
-    Request you to kindly provide your input if you are going to attend above event by giving input on link.
-    <br><br>
-    Thanks & Regards,
-    <br>
-    Marwadi University';
-    
-    // Send email
-    if (!$mail->send()) {
-        echo 'Sending email for errors: ' . $mail->ErrorInfo;
-    } else {
-        echo 'Email sent successfully to all recipients';
+    $mail->setFrom('studenteventmanagement2024@gmail.com', 'Priya Shukla');
+    foreach($studentsEmailArray AS $studentEmail){
+        $mail->addAddress($studentEmail);
+
+        // Email subject and body
+        $mail->Subject = 'A new event has been scheduled. Register fast!!!';
+        $mail->Body = 'A new event has been scheduled by organizer name go and register for it soon:
+            <a href= "http://localhost/StudentEventManagement/student/registerforevent.php?event_id='.$eventId.'&email='.$studentEmail.'"> </a>';
+        
+        if (!$mail->send()) {
+           continue;
+        } else {
+            echo 'Email sent successfully to all recipients';
+        }
     }
+    
 }
 
 ?>
