@@ -103,9 +103,7 @@ CREATE TABLE attendance(
     updated_at date,
     PRIMARY KEY(attendance_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id),
-    FOREIGN KEY(admin_id) REFERENCES users(user_id),
-    FOREIGN key(event_id) REFERENCES events(event_id),
-    FOREIGN KEY(batch_id) REFERENCES batch(batch_id)
+    FOREIGN key(event_id) REFERENCES events(event_id)
 );
 
     CREATE TABLE ratings(

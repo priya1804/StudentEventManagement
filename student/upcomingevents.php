@@ -168,7 +168,7 @@ if (!isset($_SESSION['user_id'])) {
                                     <tbody>
                                         <?php
                                         $currDate = date("Y-m-d");
-                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId' AND event_date < '$currDate'") or die(mysqli_error($mysqli));
+                                        $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId' AND event_date > '$currDate'") or die(mysqli_error($mysqli));
                                         $count = mysqli_num_rows($query);
 
                                         while($row = mysqli_fetch_array($query)){

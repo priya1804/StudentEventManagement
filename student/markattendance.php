@@ -68,7 +68,7 @@ if (!isset($_SESSION['user_id'])) {
                                 </span>
                                 <span class="hide-menu">Organizer</span>
                             </a>
-                        </li> 
+                        </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Attendance</span>
@@ -135,34 +135,40 @@ if (!isset($_SESSION['user_id'])) {
                     <div class="card w-100">
                         <div class="card-body p-4">
                             <h5 class="card-title fw-semibold mb-5">Mark attendance for event</h5>
-                            <form>
+                            <form action="markattendance.php" method="post">
                                 <div class="mb-5">
-                                    <label for="exampleInputEmail1" class="form-label">Event List</label>
-                                    <select id="disabledSelect" class="form-select">
-                                        <option>Select</option>
-                                        <option>Event 1</option>
-                                        <option>Event 2</option>
-                                    </select>
+                                    <?php
+                                    $currDate = date("Y-m-d");
+                                    $query = @mysqli_query($mysqli, "SELECT * FROM events WHERE status = 1 AND organizer_id != '$studentId' AND event_date <= '$currDate'") or die(mysqli_error($mysqli));
+                                    $count = mysqli_num_rows($query);
+
+                                    // Check if any rows were returned
+                                    if ($count> 0) {
+                                        // Output data of each row
+                                        echo '<label for="exampleInputEmail1" class="form-label">Event List</label>';
+                                        echo '<select name="event_id_selected" id="disabledSelect" class="form-select">';
+                                        echo '<option value="">Select</option>';
+                                        while ($row = mysqli_fetch_array($query)) {
+                                            echo '<option value=' .$row['event_id'] .'>' . $row['event_name'] . '</option>';
+                                        }
+                                        echo '</select>';
+                                    } else {
+                                        echo "No events found.";
+                                    }
+                                    ?>                                    
                                 </div>
                                 <div class="mb-5">
                                     <label for="exampleInputEmail1" class="form-label">Mark attendance</label>
                                     <div>
-                                        <input name="eventRadio" type="radio" class="form-check-input" id="exampleCheck1"> <span style="margin-left: 2px;">Yes</span></input>
-                                        <input name="eventRadio" type="radio" class="form-check-input" style="margin-left: 20px;" id="exampleCheck1"> <span style="margin-left: 2px;"> No </span></input>
+                                        <input name="eventRadio" type="radio" checked value="1" class="form-check-input"> <span style="margin-left: 2px;">Yes</span></input>
+                                        <input name="eventRadio" type="radio" value="2" class="form-check-input" style="margin-left: 20px;"> <span style="margin-left: 2px;"> No </span></input>
                                     </div>
                                 </div>
                                 <div class="mb-5">
-                                    <label for="exampleInputPassword1" class="form-label">Ratings</label>
-                                    <h6 class="fw-semibold mb-4 fs-4" style="color: #FFD700;">
-                                        <span>&#x2606;</span>
-                                        <span>&#x2606;</span>
-                                        <span>&#x2606;</span>
-                                        <span>&#x2606;</span>
-                                        <span>&#x2606;</span>
-                                    </h6>
-                                    <input type="text" class="form-control" id="exampleInputPassword1">
+                                    <label for="exampleInputPassword1" class="form-label">Feedback</label>
+                                    <input type="text" name="feedback_msg" class="form-control" id="exampleInputPassword1">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="save" class="btn btn-primary">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -179,3 +185,22 @@ if (!isset($_SESSION['user_id'])) {
 </body>
 
 </html>
+
+<?php
+if(isset($_POST['save'])){
+    $eventId = $_POST['event_id_selected'];
+    echo "eventId".$studentId;
+    $eventAttended = $_POST['eventRadio'];
+    $feedback = $_POST['feedback_msg'];
+
+    mysqli_query($mysqli, "INSERT INTO attendance(user_id,event_id,is_present) 
+        VALUES('$studentId','$eventId','$eventAttended')") or die(mysqli_error($mysqli));
+
+    if($feedback != ""){
+        mysqli_query($mysqli, "INSERT INTO ratings(user_id,event_id,feedback_msg) 
+        VALUES('$studentId','$eventId','$feedback')") or die(mysqli_error($mysqli));
+    }
+
+    header("location:pastattendent.php");
+}
+?>
